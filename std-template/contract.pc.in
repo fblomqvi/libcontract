@@ -4,7 +4,7 @@ libdir=@libdir@
 includedir=@includedir@
 
 Name: $prefix$contract
-URL: https://github.com/contract/contract
+URL: https://github.com/fblomqvi/libcontract
 Description: Contract checking statements for C
 Version: @PACKAGE_VERSION@
 Cflags: -I${includedir}
