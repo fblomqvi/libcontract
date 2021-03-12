@@ -25,7 +25,7 @@ The CCS libraries created from the templates have no dependencies themselves,
 but to build and run all the unit tests you need:
 - [check](https://libcheck.github.io/check/)
 - [cmocka](https://cmocka.org/)
-- [CppUTest](https://cpputest.github.io/))
+- [CppUTest](https://cpputest.github.io/)
 - [GoogleTest](https://github.com/google/googletest)
 
 # Compiler support
