@@ -159,10 +159,10 @@ GSL_ASSERT_AXIOM(cond);
 ```
 
 ## Testing CCSs during unit testing
-__libcontract____ already supports four unit testing frameworks:
+__libcontract__ already supports four unit testing frameworks:
 - [check](https://libcheck.github.io/check/)
 - [cmocka](https://cmocka.org/)
-- [CppUTest](https://cpputest.github.io/))
+- [CppUTest](https://cpputest.github.io/)
 - [GoogleTest](https://github.com/google/googletest)
 
 Furthermore, it easy to add support for more unit testing frameworks.
