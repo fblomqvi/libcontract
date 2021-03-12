@@ -124,7 +124,7 @@ install the missing dependencies or disable building of the self tests:
 To make the CCS macros available we must include the header
 `gsl_contract/contract.h`.
 
-'''C
+```C
     #include "gsl_contract/contract.h"
 
     // Very contrived example
@@ -134,9 +134,9 @@ To make the CCS macros available we must include the header
 	GSL_EXPECT(src != NULL);
 	// Do the real work
     }
-'''
+```
 
-'''C
+```C
     GSL_EXPECT(cond); // Shorthand for GSL_EXPECT_DEFAULT
     GSL_ENSURE(cond); // Shorthand for GSL_ENSURE_DEFAULT
     GSL_ASSERT(cond); // Shorthand for GSL_ASSERT_DEFAULT
@@ -156,7 +156,7 @@ To make the CCS macros available we must include the header
     GSL_EXPECT_AXIOM(cond);
     GSL_ENSURE_AXIOM(cond);
     GSL_ASSERT_AXIOM(cond);
-'''
+```
 
 ## Testing CCSs during unit testing
 __libcontract____ already supports four unit testing frameworks:
@@ -169,11 +169,11 @@ Furthermore, it easy to add support for more unit testing frameworks.
 
 CCSs are tested with the macro `CHECK_VIOLATES_CONTRACT`.
 
-'''C
+```C
     // Function to be testes in some .c file.
     void foo(int *ptr)
     {
-	GSL_EXPECTS(ptr != NULL);
+	GSL_EXPECT(ptr != NULL);
 	// Do something useful
     }
 
@@ -185,14 +185,14 @@ CCSs are tested with the macro `CHECK_VIOLATES_CONTRACT`.
     {
 	CHECK_VIOLATES_CONTRACT(foo(NULL));
     }
-'''
+```
 
 If there is no contract violation, then the test will be marked as failed. You
 can only test one contract violation at the time with the violation check
 macro. The first violation will be caught, and the code that would produce the
 second violation will never be run.
 
-'''C
+```C
     // Wrong. bar will never be called because foo(NULL) violates the precondition.
     TEST(test_foo, test_precondition)
     {
@@ -206,7 +206,7 @@ second violation will never be run.
 	CHECK_VIOLATES_CONTRACT(bar(NULL));
     }
 
-'''
+```
 
 ### Limitations
 The mechanism that allows CCSs to be tested during unit tests is implemented
@@ -228,12 +228,12 @@ giving appropriate options to `create_contract_lib.py`. For instance,
     ./create_contract_lib.py --prefix=gsl_ --expect-name=pre --ensure-name=post std-templates
 
 will create a CCS library with the macros
-'''C
+```C
     GSL_PRE(cond);
     GSL_POST(cond);
     GSL_ASSERT(cond);
     ...
-'''
+```
 
 See the help of `create_contract_lib.py` for all available options.
 
