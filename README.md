@@ -125,37 +125,37 @@ To make the CCS macros available we must include the header
 `gsl_contract/contract.h`.
 
 ```C
-    #include "gsl_contract/contract.h"
+#include "gsl_contract/contract.h"
 
-    // Very contrived example
-    void gsl_strcpy(char* dest, cont char* src)
-    {
-	GSL_EXPECT(dest != NULL);
-	GSL_EXPECT(src != NULL);
-	// Do the real work
-    }
+// Very contrived example
+void gsl_strcpy(char* dest, cont char* src)
+{
+    GSL_EXPECT(dest != NULL);
+    GSL_EXPECT(src != NULL);
+    // Do the real work
+}
 ```
 
 ```C
-    GSL_EXPECT(cond); // Shorthand for GSL_EXPECT_DEFAULT
-    GSL_ENSURE(cond); // Shorthand for GSL_ENSURE_DEFAULT
-    GSL_ASSERT(cond); // Shorthand for GSL_ASSERT_DEFAULT
+GSL_EXPECT(cond); // Shorthand for GSL_EXPECT_DEFAULT
+GSL_ENSURE(cond); // Shorthand for GSL_ENSURE_DEFAULT
+GSL_ASSERT(cond); // Shorthand for GSL_ASSERT_DEFAULT
 
-    // Default level CCSs. Checked in default and audit level builds.
-    GSL_EXPECT_DEFAULT(cond);
-    GSL_ENSURE_DEFAULT(cond);
-    GSL_ASSERT_DEFAULT(cond);
+// Default level CCSs. Checked in default and audit level builds.
+GSL_EXPECT_DEFAULT(cond);
+GSL_ENSURE_DEFAULT(cond);
+GSL_ASSERT_DEFAULT(cond);
 
-    // Audit level CCSs. Only checked in audit level builds.
-    GSL_EXPECT_AUDIT(cond);
-    GSL_ENSURE_AUDIT(cond);
-    GSL_ASSERT_AUDIT(cond);
+// Audit level CCSs. Only checked in audit level builds.
+GSL_EXPECT_AUDIT(cond);
+GSL_ENSURE_AUDIT(cond);
+GSL_ASSERT_AUDIT(cond);
 
-    // CCSs that cannot be checked. 'cond' is assumed to be true or not checked
-    // (ignored) depending on the build mode.
-    GSL_EXPECT_AXIOM(cond);
-    GSL_ENSURE_AXIOM(cond);
-    GSL_ASSERT_AXIOM(cond);
+// CCSs that cannot be checked. 'cond' is assumed to be true or not
+// checked (ignored) depending on the build mode.
+GSL_EXPECT_AXIOM(cond);
+GSL_ENSURE_AXIOM(cond);
+GSL_ASSERT_AXIOM(cond);
 ```
 
 ## Testing CCSs during unit testing
@@ -170,21 +170,21 @@ Furthermore, it easy to add support for more unit testing frameworks.
 CCSs are tested with the macro `CHECK_VIOLATES_CONTRACT`.
 
 ```C
-    // Function to be testes in some .c file.
-    void foo(int *ptr)
-    {
-	GSL_EXPECT(ptr != NULL);
-	// Do something useful
-    }
+// Function to be testes in some .c file.
+void foo(int *ptr)
+{
+    GSL_EXPECT(ptr != NULL);
+    // Do something useful
+}
 
-    // In UT file. Include the header that corresponds to the UT
-    // framework in use.
-    #include "gsl_contract/ut/CppUTest.h"
+// In UT file. Include the header that corresponds to the UT
+// framework in use.
+#include "gsl_contract/ut/CppUTest.h"
 
-    TEST(test_foo, test_precondition)
-    {
-	CHECK_VIOLATES_CONTRACT(foo(NULL));
-    }
+TEST(test_foo, test_precondition)
+{
+    CHECK_VIOLATES_CONTRACT(foo(NULL));
+}
 ```
 
 If there is no contract violation, then the test will be marked as failed. You
@@ -193,19 +193,18 @@ macro. The first violation will be caught, and the code that would produce the
 second violation will never be run.
 
 ```C
-    // Wrong. bar will never be called because foo(NULL) violates the precondition.
-    TEST(test_foo, test_precondition)
-    {
-	CHECK_VIOLATES_CONTRACT(foo(NULL); bar(NULL));
-    }
+// Wrong. bar will never be called because foo(NULL) violates the precondition.
+TEST(test_foo, test_precondition)
+{
+    CHECK_VIOLATES_CONTRACT(foo(NULL); bar(NULL));
+}
 
-    // The correct way to test many CCSs in the same test.
-    TEST(test_foo, test_precondition)
-    {
-	CHECK_VIOLATES_CONTRACT(foo(NULL));
-	CHECK_VIOLATES_CONTRACT(bar(NULL));
-    }
-
+// The correct way to test many CCSs in the same test.
+TEST(test_foo, test_precondition)
+{
+    CHECK_VIOLATES_CONTRACT(foo(NULL));
+    CHECK_VIOLATES_CONTRACT(bar(NULL));
+}
 ```
 
 ### Limitations
@@ -229,10 +228,10 @@ giving appropriate options to `create_contract_lib.py`. For instance,
 
 will create a CCS library with the macros
 ```C
-    GSL_PRE(cond);
-    GSL_POST(cond);
-    GSL_ASSERT(cond);
-    ...
+GSL_PRE(cond);
+GSL_POST(cond);
+GSL_ASSERT(cond);
+...
 ```
 
 See the help of `create_contract_lib.py` for all available options.
