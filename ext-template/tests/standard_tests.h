@@ -4,7 +4,7 @@
  * tests/standard_tests.c
  * Copyright (C) 2020 Ferdinand Blomqvist
  *
- * This file is part of lib$prefix$contract
+ * $autogen_notice$
  */
 #include "test_helper.h"
 #include <check.h>

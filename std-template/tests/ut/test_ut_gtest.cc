@@ -4,7 +4,7 @@
  * tests/ut/test_ut_gtest.cc
  * Copyright (C) 2020 Ferdinand Blomqvist
  *
- * This file is part of lib$prefix$contract
+ * $autogen_notice$
  */
 #include <gtest/gtest.h>
 

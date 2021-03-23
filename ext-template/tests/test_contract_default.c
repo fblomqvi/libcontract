@@ -4,7 +4,7 @@
  * tests/test_contract_default.c
  * Copyright (C) 2020 Ferdinand Blomqvist
  *
- * This file is part of lib$prefix$contract
+ * $autogen_notice$
  */
 #include <check.h>
 #include <signal.h>

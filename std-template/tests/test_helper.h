@@ -4,7 +4,7 @@
  * tests/test_helper.h
  * Copyright (C) 2020 Ferdinand Blomqvist
  *
- * This file is part of lib$prefix$contract
+ * $autogen_notice$
  */
 #ifndef _$PREFIX$CONTRACT_HEADER_CONTRACT_TEST_HELPER_H_
 #define _$PREFIX$CONTRACT_HEADER_CONTRACT_TEST_HELPER_H_

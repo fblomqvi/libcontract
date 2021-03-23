@@ -4,7 +4,7 @@
  * tests/ut/test_ut_cpputest.cc
  * Copyright (C) 2020 Ferdinand Blomqvist
  *
- * This file is part of lib$prefix$contract
+ * $autogen_notice$
  */
 #include <CppUTest/CommandLineTestRunner.h>
 #include <CppUTest/TestHarness.h>
