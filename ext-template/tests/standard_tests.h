@@ -66,16 +66,19 @@ START_TEST(TEST_expect_axiom)
 {
     test_expect_axiom(NULL);
 }
+END_TEST
 
 START_TEST(TEST_ensure_axiom)
 {
     test_ensure_axiom(NULL);
 }
+END_TEST
 
 START_TEST(TEST_assert_axiom)
 {
     test_assert_axiom(NULL);
 }
+END_TEST
 
 /* Tests for review role */
 START_TEST(TEST_contracts_honored_review)
@@ -132,13 +135,16 @@ START_TEST(TEST_expect_axiom_review)
 {
     test_expect_axiom_review(NULL);
 }
+END_TEST
 
 START_TEST(TEST_ensure_axiom_review)
 {
     test_ensure_axiom_review(NULL);
 }
+END_TEST
 
 START_TEST(TEST_assert_axiom_review)
 {
     test_assert_axiom_review(NULL);
 }
+END_TEST

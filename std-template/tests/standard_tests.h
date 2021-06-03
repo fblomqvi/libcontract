@@ -65,13 +65,16 @@ START_TEST(TEST_expect_axiom)
 {
     test_expect_axiom(NULL);
 }
+END_TEST
 
 START_TEST(TEST_ensure_axiom)
 {
     test_ensure_axiom(NULL);
 }
+END_TEST
 
 START_TEST(TEST_assert_axiom)
 {
     test_assert_axiom(NULL);
 }
+END_TEST
