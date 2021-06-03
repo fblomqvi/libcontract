@@ -15,8 +15,16 @@
 extern "C" {
 #endif
 
-typedef void (*$prefix$contract_handler_t)(const char *, const char *,
-                                           const char *, const char *, size_t);
+struct $prefix$contract_violation {
+    const char *file;
+    size_t line;
+    const char *function;
+    const char *type;
+    const char *condition;
+};
+
+typedef void (*$prefix$contract_handler_t)(
+    const struct $prefix$contract_violation *);
 
 /**
  * @brief Get the global violation handler.
@@ -35,9 +43,8 @@ void $prefix$contract_set_handler($prefix$contract_handler_t handler);
  * @brief Calls the global violation handler that can be set by
  * $prefix$contract_set_handler().
  */
-void _$prefix$contract_handle_violation(const char *type, const char *condition,
-                                        const char *file, const char *function,
-                                        size_t line);
+void _$prefix$contract_handle_violation(
+    const struct $prefix$contract_violation *v);
 
 /* Default shorthand macros */
 #define $PREFIX$$EXPECT$(cond) $PREFIX$$EXPECT$_DEFAULT(cond)
@@ -104,9 +111,9 @@ void _$prefix$contract_handle_violation(const char *type, const char *condition,
     } while (0)
 
 /* Create violation handler call */
-#define _$PREFIX$CONTRACT_HANDLE_VIOLATION_(type, cond)                 \
-    _$prefix$contract_handle_violation(type, #cond, __FILE__, __func__, \
-                                       __LINE__)
+#define _$PREFIX$CONTRACT_HANDLE_VIOLATION_(type, cond)                       \
+    _$prefix$contract_handle_violation(&((struct $prefix$contract_violation){ \
+        __FILE__, __LINE__, __func__, type, #cond}))
 
 /* Build configuration options */
 #if defined $PREFIX$CONTRACT_OFF

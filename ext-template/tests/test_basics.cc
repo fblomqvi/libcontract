@@ -8,27 +8,17 @@
  */
 #include <CppUTest/CommandLineTestRunner.h>
 #include <CppUTest/TestHarness.h>
-#include "CppUTest/TestRegistry.h"
+#include <CppUTest/TestRegistry.h>
 
-#include "CppUTestExt/MockSupport.h"
-#include "CppUTestExt/MockSupportPlugin.h"
+#include <CppUTestExt/MockSupport.h>
+#include <CppUTestExt/MockSupportPlugin.h>
 
 #include "$prefix$contract/contract.h"
 
 
-static void test_handler(enum $prefix$contract_violation_cont_mode mode,
-                         const char* role, const char* type,
-                         const char* condition, const char* file,
-                         const char* function, size_t line)
+static void test_handler(const struct $prefix$contract_violation *v)
 {
-    mock().actualCall("test_handler")
-        .withParameter("mode", mode)
-        .withParameter("role", role)
-        .withParameter("type", type)
-        .withParameter("condition", condition)
-        .withParameter("file", file)
-        .withParameter("function", function)
-        .withParameter("line", line);
+    mock().actualCall("test_handler").withParameter("v", v);
 }
 
 TEST_GROUP(BasicFunctions)
@@ -46,25 +36,14 @@ TEST(BasicFunctions, TestGetSetHandler)
 
 TEST(BasicFunctions, TestContractHandleViolation)
 {
-    enum $prefix$contract_violation_cont_mode mode = NEVER_CONTINUE;
-    const char* condition = "1 == 2";
-    const char* function = "my_function";
-    const char* type = "precondition";
-    const char* file = __FILE__;
-    const char* role = "default";
-    size_t line = 42;
+    const struct $prefix$contract_violation v = {
+        __FILE__, __LINE__, "my_function", "precondition",
+        "1 == 2", "default", NEVER_CONTINUE
+    };
 
-    mock().expectOneCall("test_handler")
-        .withParameter("mode", mode)
-        .withParameter("role", role)
-        .withParameter("type", type)
-        .withParameter("condition", condition)
-        .withParameter("file", file)
-        .withParameter("function", function)
-        .withParameter("line", line);
+    mock().expectOneCall("test_handler").withParameter("v", &v);
 
-    _$prefix$contract_handle_violation(mode, role, type, condition,
-                                       file, function, line);
+    _$prefix$contract_handle_violation(&v);
 }
 
 int main(int ac, char** av)

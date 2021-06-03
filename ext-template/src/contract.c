@@ -12,21 +12,16 @@
 
 volatile int _$prefix$contract_unknowable_int_ = 0;
 
-static void print_violation(const char *role, const char *type,
-                            const char *condition, const char *file,
-                            const char *function, size_t line)
+static void print_violation(const struct $prefix$contract_violation *v)
 {
-    fprintf(stderr, "%s:%zu: in %s: %s '%s' violated (%s role)\n", file, line,
-            function, type, condition, role);
+    fprintf(stderr, "%s:%zu: in %s: %s '%s' violated (%s role)\n", v->file,
+            v->line, v->function, v->type, v->condition, v->role);
 }
 
-static void default_handler(enum $prefix$contract_violation_cont_mode mode,
-                            const char *role, const char *type,
-                            const char *condition, const char *file,
-                            const char *function, size_t line)
+static void default_handler(const struct $prefix$contract_violation *v)
 {
-    print_violation(role, type, condition, file, function, line);
-    if (mode != ALWAYS_CONTINUE)
+    print_violation(v);
+    if (v->mode != ALWAYS_CONTINUE)
         abort();
 }
 
@@ -43,11 +38,9 @@ void $prefix$contract_set_handler($prefix$contract_handler_t handler)
 }
 
 void _$prefix$contract_handle_violation(
-    enum $prefix$contract_violation_cont_mode mode, const char *role,
-    const char *type, const char *condition, const char *file,
-    const char *function, size_t line)
+    const struct $prefix$contract_violation *v)
 {
-    g_handler(mode, role, type, condition, file, function, line);
+    g_handler(v);
 }
 
 /* UT stuff */
@@ -59,21 +52,16 @@ static enum $prefix$contract_ut_verbosity verbosity_level =
 static _CONTRACT_THREAD_LOCAL int contract_check_active = 0;
 _CONTRACT_THREAD_LOCAL jmp_buf _$prefix$contract_jmp_buf;
 
-static void ut_handler(enum $prefix$contract_violation_cont_mode mode,
-                       const char *role, const char *type,
-                       const char *condition, const char *file,
-                       const char *function, size_t line)
+static void ut_handler(const struct $prefix$contract_violation *v)
 {
-    (void) mode;
-
     if (!contract_check_active) {
         fprintf(stderr, "Unexpected contract violation:\n");
-        print_violation(role, type, condition, file, function, line);
+        print_violation(v);
         abort();
     }
 
     if (verbosity_level == $PREFIX$CONTRACT_UT_VERBOSE) {
-        print_violation(role, type, condition, file, function, line);
+        print_violation(v);
     }
 
     longjmp(_$prefix$contract_jmp_buf, 1);

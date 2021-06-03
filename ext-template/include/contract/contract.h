@@ -21,11 +21,20 @@ enum $prefix$contract_violation_cont_mode {
     ALWAYS_CONTINUE
 };
 
-extern volatile int _$prefix$contract_unknowable_int_;
+struct $prefix$contract_violation {
+    const char *file;
+    size_t line;
+    const char *function;
+    const char *type;
+    const char *condition;
+    const char *role;
+    enum $prefix$contract_violation_cont_mode mode;
+};
 
 typedef void (*$prefix$contract_handler_t)(
-    enum $prefix$contract_violation_cont_mode mode, const char *, const char *,
-    const char *, const char *, const char *, size_t);
+    const struct $prefix$contract_violation *);
+
+extern volatile int _$prefix$contract_unknowable_int_;
 
 /**
  * @brief Get the global violation handler.
@@ -45,9 +54,7 @@ void $prefix$contract_set_handler($prefix$contract_handler_t handler);
  * $prefix$contract_set_handler().
  */
 void _$prefix$contract_handle_violation(
-    enum $prefix$contract_violation_cont_mode mode, const char *role,
-    const char *type, const char *condition, const char *file,
-    const char *function, size_t line);
+    const struct $prefix$contract_violation *v);
 
 /* Default role shorthand macros */
 #define $PREFIX$$EXPECT$(cond) $PREFIX$$EXPECT$_DEFAULT(cond)
@@ -259,8 +266,8 @@ void _$prefix$contract_handle_violation(
 
 /* Create violation handler call */
 #define _$PREFIX$CONTRACT_HANDLE_VIOLATION_(mode, role, type, cond)       \
-    _$prefix$contract_handle_violation(mode, role, type, #cond, __FILE__, \
-                                       __func__, __LINE__)
+    _$prefix$contract_handle_violation(&((struct $prefix$contract_violation){ \
+        __FILE__, __LINE__, __func__, type, #cond, role, mode}))
 
 /* Build configuration options */
 #if defined $PREFIX$CONTRACT_OFF

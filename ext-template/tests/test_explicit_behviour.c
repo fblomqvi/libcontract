@@ -15,15 +15,12 @@
 #include "test_helper.h"
 
 /* Handler that continues on MAYBE_CONTINUE */
-static void continuing_handler(enum $prefix$contract_violation_cont_mode mode,
-                               const char *role, const char *type,
-                               const char *condition, const char *file,
-                               const char *function, size_t line)
+static void continuing_handler(const struct $prefix$contract_violation *v)
 {
-    fprintf(stderr, "%s:%zu: in %s: %s '%s' violated (%s role)\n", file, line,
-            function, type, condition, role);
+    fprintf(stderr, "%s:%zu: in %s: %s '%s' violated (%s role)\n", v->file,
+            v->line, v->function, v->type, v->condition, v->role);
 
-    if (mode == NEVER_CONTINUE)
+    if (v->mode == NEVER_CONTINUE)
         abort();
 }
 

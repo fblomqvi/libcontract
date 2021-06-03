@@ -27,9 +27,7 @@ your own. Note that the violation handler should unconditionally abort.
 
 ```C
 // Example handler
-void custom_handler(const char* type, const char* condition,
-		    const char* file, const char* function,
-		    size_t line)
+void custom_handler(const struct $prefix$contract_violation *v)
 {
     // Do something useful. Ideally print an informative message
     // about the contract violation.
