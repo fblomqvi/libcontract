@@ -96,11 +96,32 @@ void _$prefix$contract_handle_violation(
 #define _$PREFIX$CONTRACT_TYPE_ENSURE_ "postcondition"
 #define _$PREFIX$CONTRACT_TYPE_ASSERT_ "assertion"
 
+#if defined(__clang__)
+    #if __has_builtin(__builtin_unreachable)
+        #define _CONTRACT_HAVE_BUILTIN_UNREACHABLE 1
+    #endif
+#elif defined(__GNUC__)
+    #if __GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
+        #define _CONTRACT_HAVE_BUILTIN_UNREACHABLE 1
+    #endif
+#endif
+
+#if defined(_MSC_VER)
+    #define _CONTRACT_HAVE_BUILTIN_ASSUME 1
+#endif
+
 /* Contract modes */
 #define _$PREFIX$CONTRACT_IGNORE_(type, cond) (void) sizeof((cond) ? 1 : 0)
 
-#define _$PREFIX$CONTRACT_ASSUME_(type, cond) \
-    ((cond) ? (void) 0 : __builtin_unreachable())
+#if _CONTRACT_HAVE_BUILTIN_UNREACHABLE
+    #define _$PREFIX$CONTRACT_ASSUME_(type, cond) \
+        ((cond) ? (void) 0 : __builtin_unreachable())
+#elif _CONTRACT_HAVE_BUILTIN_ASSUME
+    #define _$PREFIX$CONTRACT_ASSUME_(type, cond) __assume(cond)
+#else
+    #define _$PREFIX$CONTRACT_ASSUME_(type, cond) \
+        _$PREFIX$CONTRACT_IGNORE_(type, cond)
+#endif
 
 #define _$PREFIX$CONTRACT_CHECK_NEVER_CONTINUE_(type, cond)  \
     do {                                                     \

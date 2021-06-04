@@ -33,9 +33,6 @@ Compiling the generated CCS libraries requires a C99 compiler, and building the
 unit tests require a C/C++ compilers that conforms to the minimum requirements
 imposed by the unit testing frameworks.
 
-Some of CCS macros rely on  the `__builtin_unreachable` intrinsic and usage
-thus requires `gcc` or `clang`.
-
 # Standard assert vs CCS macros
 Why bother to use CCS macros when the standard library already provides the
 `assert` macro? There are several benefits to the CCS macros:
