@@ -112,8 +112,11 @@ void _$prefix$contract_handle_violation(
 
 /* Create violation handler call */
 #define _$PREFIX$CONTRACT_HANDLE_VIOLATION_(type, cond)                       \
-    _$prefix$contract_handle_violation(&((struct $prefix$contract_violation){ \
-        __FILE__, __LINE__, __func__, type, #cond}))
+    do {                                                                      \
+        const struct $prefix$contract_violation _v = {__FILE__, __LINE__,     \
+                                                      __func__, type, #cond}; \
+        _$prefix$contract_handle_violation(&_v);                              \
+    } while (0)
 
 /* Build configuration options */
 #if defined $PREFIX$CONTRACT_OFF
